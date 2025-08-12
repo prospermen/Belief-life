@@ -71,7 +71,7 @@ const HomePage = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/src/assets/home-bg.png')`,
+          backgroundImage: `url("/src/assets/home-bg.webp")`,
           filter: 'brightness(0.8)'
         }}
       />

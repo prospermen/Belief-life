@@ -141,7 +141,7 @@ const ExercisePage = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('/src/assets/exercise-bg.png')`,
+            backgroundImage: `url("/src/assets/exercise-bg.webp")`,
             filter: 'brightness(0.7)'
           }}
         />
@@ -295,7 +295,7 @@ const ExercisePage = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/src/assets/exercise-bg.png')`,
+          backgroundImage: `url("/src/assets/exercise-bg.webp")`,
           filter: 'brightness(0.8)'
         }}
       />

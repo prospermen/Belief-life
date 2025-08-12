@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 
-// 导入页面组件
-import OnboardingPage from './components/OnboardingPage'
-import AuthPage from './components/AuthPage'
-import HomePage from './components/HomePage'
-import MoodJournalPage from './components/MoodJournalPage'
-import ExercisePage from './components/ExercisePage'
-import HistoryPage from './components/HistoryPage'
+const OnboardingPage = React.lazy(() => import('./components/OnboardingPage'))
+const AuthPage = React.lazy(() => import('./components/AuthPage'))
+const HomePage = React.lazy(() => import('./components/HomePage'))
+const MoodJournalPage = React.lazy(() => import('./components/MoodJournalPage'))
+const ExercisePage = React.lazy(() => import('./components/ExercisePage'))
+const HistoryPage = React.lazy(() => import('./components/HistoryPage'))
 import Navigation from './components/Navigation'
 
 // 主应用组件
@@ -69,16 +68,25 @@ const App = () => {
 
   return (
     <Router>
-      <div className="min-h-screen">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/mood-journal" element={<MoodJournalPage />} />
-          <Route path="/exercises" element={<ExercisePage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        <Navigation onLogout={handleLogout} />
-      </div>
+      <React.Suspense fallback={(
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-white/80">加载中...</p>
+          </div>
+        </div>
+      )}>
+        <div className="min-h-screen">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/mood-journal" element={<MoodJournalPage />} />
+            <Route path="/exercises" element={<ExercisePage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          <Navigation onLogout={handleLogout} />
+        </div>
+      </React.Suspense>
     </Router>
   )
 }

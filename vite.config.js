@@ -11,6 +11,18 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['lucide-react']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000,
+    minify: true
+  },
   server: {
     host: true,
     port: 5174,

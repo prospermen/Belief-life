@@ -123,7 +123,7 @@ const HistoryPage = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/src/assets/history-bg.png')`,
+          backgroundImage: `url("/src/assets/history-bg.webp")`,
           filter: 'brightness(0.7)'
         }}
       />
