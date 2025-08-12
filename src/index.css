@@ -1,0 +1,351 @@
+@import "tailwindcss";
+
+/* 原神风格全局CSS变量 */
+:root {
+  /* 主色调 - 深邃蓝/紫 */
+  --primary-deep-blue: #2A3B5B;
+  --primary-star-purple: #4B3B6B;
+  
+  /* 辅助色 - 米白/浅灰 */
+  --secondary-moonlight: #F5F5F5;
+  --secondary-stardust: #E0E0E0;
+  
+  /* 点缀色 - 金色/琥珀色 */
+  --accent-gold: #E6B347;
+  --accent-amber: #FFD700;
+  
+  /* 文字色 */
+  --text-white: #FFFFFF;
+  --text-light-gold: #F0E68C;
+  --text-dark-gray: #4A4A4A;
+  
+  /* 情绪色彩 */
+  --mood-happy: #90EE90;
+  --mood-sad: #ADD8E6;
+  --mood-angry: #FF6347;
+  --mood-anxious: #DA70D6;
+  --mood-calm: #87CEEB;
+  --mood-excited: #FFD700;
+  
+  /* 渐变色 */
+  --gradient-primary: linear-gradient(135deg, var(--primary-deep-blue) 0%, var(--primary-star-purple) 100%);
+  --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-amber) 100%);
+  --gradient-overlay: linear-gradient(180deg, rgba(42, 59, 91, 0.8) 0%, rgba(75, 59, 107, 0.9) 100%);
+  
+  /* 阴影效果 */
+  --shadow-soft: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0px 0px 20px rgba(230, 179, 71, 0.3);
+  --shadow-deep: 0px 12px 30px rgba(0, 0, 0, 0.25);
+  
+  /* 圆角 */
+  --radius-small: 12px;
+  --radius-medium: 16px;
+  --radius-large: 24px;
+  --radius-xl: 32px;
+  
+  /* 动画时长 */
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+}
+
+/* 全局基础样式 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Source Han Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--gradient-primary);
+  color: var(--text-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* 全局背景装饰 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(230, 179, 71, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(135, 206, 235, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 全局滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(42, 59, 91, 0.3);
+  border-radius: var(--radius-small);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-gold);
+  border-radius: var(--radius-small);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-amber);
+}
+
+/* 全局按钮基础样式 */
+.genshin-button {
+  position: relative;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-medium);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+  overflow: hidden;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.genshin-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow) ease;
+}
+
+.genshin-button:hover::before {
+  left: 100%;
+}
+
+.genshin-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.genshin-button:active {
+  transform: translateY(0);
+}
+
+/* 主要按钮 */
+.genshin-button-primary {
+  background: var(--gradient-gold);
+  color: var(--text-dark-gray);
+  box-shadow: var(--shadow-soft);
+}
+
+.genshin-button-primary:hover {
+  box-shadow: var(--shadow-glow), var(--shadow-soft);
+}
+
+/* 次要按钮 */
+.genshin-button-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.genshin-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--accent-gold);
+}
+
+/* 全局卡片样式 */
+.genshin-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-soft);
+  padding: 24px;
+  transition: all var(--transition-normal) ease;
+}
+
+.genshin-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-deep);
+  border-color: rgba(230, 179, 71, 0.3);
+}
+
+/* 全局输入框样式 */
+.genshin-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-medium);
+  color: var(--text-white);
+  font-size: 16px;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-normal) ease;
+}
+
+.genshin-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.genshin-input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(230, 179, 71, 0.2);
+}
+
+/* 全局文本样式 */
+.genshin-title {
+  font-family: 'Source Han Serif', serif;
+  font-weight: 700;
+  color: var(--text-light-gold);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.genshin-subtitle {
+  font-weight: 600;
+  color: var(--text-white);
+  opacity: 0.9;
+}
+
+.genshin-text {
+  color: var(--text-white);
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* 全局动画类 */
+.fade-in {
+  animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.slide-up {
+  animation: slideUp var(--transition-slow) ease-out;
+}
+
+.glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(230, 179, 71, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(230, 179, 71, 0.6);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .genshin-card {
+    padding: 16px;
+    border-radius: var(--radius-medium);
+  }
+  
+  .genshin-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .genshin-input {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+}
+
+/* 加载动画 */
+.genshin-loading {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(230, 179, 71, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--accent-gold);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 粒子效果容器 */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-100px) rotate(180deg);
+    opacity: 1;
+  }
+}
+
