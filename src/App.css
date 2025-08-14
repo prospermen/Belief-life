@@ -315,3 +315,97 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+
+/* 优化的粒子动画 */
+@keyframes optimizedFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate3d(10px, -10px, 0) scale(1.1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate3d(-5px, -20px, 0) scale(0.9);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translate3d(-10px, -10px, 0) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+@keyframes optimizedPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+/* 优化的粒子动画类 */
+.optimized-particle {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  animation: optimizedFloat 4s ease-in-out infinite;
+}
+
+.optimized-particle-pulse {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  animation: optimizedPulse 2s ease-in-out infinite;
+}
+
+/* 硬件加速优化 */
+.hw-accelerated {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* 减少重绘的动画 */
+.smooth-animation {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 响应式设计 - 移动端优化 */
+@media (max-width: 768px) {
+  .optimized-particle {
+    animation-duration: 6s; /* 移动端减慢动画速度 */
+  }
+  
+  .optimized-particle-pulse {
+    animation-duration: 3s;
+  }
+}
+
+/* 减少动画的用户偏好设置 */
+@media (prefers-reduced-motion: reduce) {
+  .optimized-particle,
+  .optimized-particle-pulse {
+    animation: none;
+    opacity: 0.5;
+  }
+  
+  .genshin-breathe,
+  .genshin-pulse-glow,
+  .genshin-float,
+  .genshin-sparkle {
+    animation: none;
+  }
+}
+
+/* 性能优化的粒子容器 */
+.particle-container {
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+

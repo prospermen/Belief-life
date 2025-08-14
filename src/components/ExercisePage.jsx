@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import OptimizedParticleBackground from './OptimizedParticleBackground'
 
 const ExercisePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -147,21 +148,7 @@ const ExercisePage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-purple-900/60 to-slate-900/80" />
         
-        {/* 飘动粒子效果 */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-yellow-300 rounded-full opacity-60 animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`
-              }}
-            />
-          ))}
-        </div>
+        <OptimizedParticleBackground color="#FACC15" quantity={12} />
 
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* 顶部导航 */}
@@ -301,21 +288,7 @@ const ExercisePage = () => {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-purple-900/50 to-slate-900/70" />
       
-      {/* 飘动粒子效果 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-yellow-300 rounded-full opacity-40 animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
+      <OptimizedParticleBackground color="#FACC15" quantity={10} />
 
       <div className="relative z-10 min-h-screen">
         {/* 顶部标题 */}

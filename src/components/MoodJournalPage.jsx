@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import OptimizedParticleBackground from './OptimizedParticleBackground'
 import GenshinCard from './GenshinCard'
 import GenshinButton from './GenshinButton'
 import GenshinModal from './GenshinModal'
@@ -79,21 +80,7 @@ const MoodJournalPage = () => {
         <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-purple-400/5 rounded-full blur-xl animate-pulse" style={{animationDelay: '2s'}} />
       </div>
 
-      {/* 粒子效果 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(10)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full opacity-60 animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
+<OptimizedParticleBackground color="#FFFFFF" quantity={10} />
 
       {/* 主要内容 */}
       <div className="relative z-10 p-4">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import OptimizedParticleBackground from './OptimizedParticleBackground'
 
 const HistoryPage = () => {
   const [selectedFilter, setSelectedFilter] = useState('all')
@@ -129,21 +130,7 @@ const HistoryPage = () => {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-purple-900/60 to-slate-900/80" />
       
-      {/* 飘动粒子效果 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-300 rounded-full opacity-50 animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
+<OptimizedParticleBackground color="#8B5CF6" quantity={12} />
 
       <div className="relative z-10 min-h-screen">
         {/* 顶部标题和筛选 */}

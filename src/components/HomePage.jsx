@@ -1,9 +1,21 @@
-import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import OptimizedParticleBackground from './OptimizedParticleBackground'
+import SOSButton from './SOSButton'
+import BreathingExercise from './BreathingExercise'
+import EmotionWave from './EmotionWave'
+import ThoughtCooling from './ThoughtCooling'
+import DailyJourneyPage from './DailyJourneyPage'
+import SmartInsights from './SmartInsights'
+import DataVisualization from './DataVisualization'
 
 const HomePage = () => {
   const navigate = useNavigate()
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [sosMode, setSOSMode] = useState(null) // null, 'breathing', 'wave', 'thought'
+  const [showDailyJourney, setShowDailyJourney] = useState(false)
+  const [showSmartInsights, setShowSmartInsights] = useState(false)
+  const [showDataVisualization, setShowDataVisualization] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -22,6 +34,30 @@ const HomePage = () => {
       action: () => navigate('/mood-journal')
     },
     {
+      title: '每日旅程',
+      description: '系统化的心理健康技能学习',
+      icon: '🗺️',
+      gradient: 'from-indigo-400 to-purple-500',
+      hoverGradient: 'from-indigo-500 to-purple-600',
+      action: () => setShowDailyJourney(true)
+    },
+    {
+      title: '智能洞察',
+      description: '发现模式并获得个性化建议',
+      icon: '🔍',
+      gradient: 'from-purple-400 to-pink-500',
+      hoverGradient: 'from-purple-500 to-pink-600',
+      action: () => setShowSmartInsights(true)
+    },
+    {
+      title: '数据可视化',
+      description: '查看你的进步和趋势图表',
+      icon: '📊',
+      gradient: 'from-cyan-400 to-blue-500',
+      hoverGradient: 'from-cyan-500 to-blue-600',
+      action: () => setShowDataVisualization(true)
+    },
+    {
       title: '正念练习',
       description: '开始一段放松的引导练习',
       icon: '🧘‍♀️',
@@ -33,8 +69,8 @@ const HomePage = () => {
       title: '查看历史',
       description: '回顾过往的情绪记录',
       icon: '📚',
-      gradient: 'from-purple-400 to-violet-500',
-      hoverGradient: 'from-purple-500 to-violet-600',
+      gradient: 'from-amber-400 to-orange-500',
+      hoverGradient: 'from-amber-500 to-orange-600',
       action: () => navigate('/history')
     }
   ]
@@ -65,6 +101,72 @@ const HomePage = () => {
     return '🌆'
   }
 
+  // 智能洞察模式渲染
+  if (showSmartInsights) {
+    return (
+      <SmartInsights
+        onBack={() => setShowSmartInsights(false)}
+      />
+    )
+  }
+
+  // 数据可视化模式渲染
+  if (showDataVisualization) {
+    return (
+      <DataVisualization
+        onBack={() => setShowDataVisualization(false)}
+      />
+    )
+  }
+
+  // 每日旅程模式渲染
+  if (showDailyJourney) {
+    return (
+      <DailyJourneyPage
+        onBack={() => setShowDailyJourney(false)}
+      />
+    )
+  }
+
+  // SOS模式渲染
+  if (sosMode === 'breathing') {
+    return (
+      <BreathingExercise
+        onComplete={(nextAction) => {
+          if (nextAction === 'wave') {
+            setSOSMode('wave')
+          } else {
+            setSOSMode(null)
+          }
+        }}
+        onBack={() => setSOSMode(null)}
+      />
+    )
+  }
+
+  if (sosMode === 'wave') {
+    return (
+      <EmotionWave
+        onComplete={() => setSOSMode(null)}
+        onBack={() => setSOSMode('breathing')}
+      />
+    )
+  }
+
+  if (sosMode === 'thought') {
+    return (
+      <ThoughtCooling
+        onComplete={(responses) => {
+          console.log('思维降温完成:', responses)
+          setSOSMode(null)
+        }}
+        onBack={() => setSOSMode(null)}
+      />
+    )
+  }
+
+  // 默认主页渲染
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* 背景 */}
@@ -77,21 +179,7 @@ const HomePage = () => {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-amber-900/30 via-green-900/20 to-blue-900/40" />
       
-      {/* 飘动花瓣效果 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-yellow-300 rounded-full opacity-60 animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
+      <OptimizedParticleBackground color="#FACC15" quantity={8} />
 
       <div className="relative z-10 min-h-screen">
         {/* 顶部时间和问候 */}
@@ -228,6 +316,14 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
+      {/* SOS按钮 */}
+      {!sosMode && (
+        <SOSButton
+          onEmotionHelp={() => setSOSMode('breathing')}
+          onThoughtHelp={() => setSOSMode('thought')}
+        />
+      )}
     </div>
   )
 }
