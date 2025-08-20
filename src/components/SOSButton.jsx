@@ -1,8 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import GenshinModal from './GenshinModal'
 
 const SOSButton = ({ onEmotionHelp, onThoughtHelp }) => {
   const [showModal, setShowModal] = useState(false)
+  const [selectedAudio, setSelectedAudio] = useState('/meditation-music.mp3')
+  const [audio] = useState(new Audio(selectedAudio))
+
+  useEffect(() => {
+    audio.loop = true // 循环播放
+    audio.volume = 0.5 // 设置音量
+
+    if (showModal) {
+      audio.play().catch(e => console.error("Error playing audio:", e))
+    } else {
+      audio.pause()
+      audio.currentTime = 0 // 停止时重置播放时间
+    }
+
+    return () => {
+      audio.pause()
+      audio.currentTime = 0
+    }
+  }, [showModal, audio, selectedAudio])
 
   const handleSOSClick = () => {
     setShowModal(true)
@@ -79,6 +98,22 @@ const SOSButton = ({ onEmotionHelp, onThoughtHelp }) => {
               </div>
             </button>
           </div>
+
+          {/* 音频选择 */}
+          <div className="mt-6">
+            <label htmlFor="audio-select" className="block text-white/80 text-center mb-2">选择背景音乐：</label>
+            <select
+              id="audio-select"
+              value={selectedAudio}
+              onChange={(e) => setSelectedAudio(e.target.value)}
+              className="w-full p-2 rounded-md bg-white/10 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="/meditation-music.mp3">冥想音乐</option>
+              <option value="/nature-ambience.mp3">自然环境音</option>
+              <option value="/5-minute-breathing-meditation.mp3">5分钟呼吸冥想</option>
+              <option value="/11-minute-awareness-of-breath-practice.mp3">11分钟呼吸意识练习</option>
+            </select>
+          </div>
         </div>
       </GenshinModal>
 
@@ -97,4 +132,5 @@ const SOSButton = ({ onEmotionHelp, onThoughtHelp }) => {
 }
 
 export default SOSButton
+
 

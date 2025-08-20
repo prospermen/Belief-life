@@ -31,7 +31,7 @@ export default defineConfig({
       clientPort: 443,
     },
     allowedHosts: [
-      "5174-il6ya2lavb9ipwq0lxqqi-64c33bd5.manusvm.computer"
+      "5174-ip89hvi7s2p1568hcypen-8f0432e7.manusvm.computer"
     ]
   }
 })
