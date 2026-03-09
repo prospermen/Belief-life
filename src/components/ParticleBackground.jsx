@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 const ParticleBackground = ({ 
   particleCount = 15, 
   particleColor = 'bg-yellow-300', 
-  animationDuration = '3s',
   opacity = 'opacity-60'
 }) => {
   const [particles, setParticles] = useState([])

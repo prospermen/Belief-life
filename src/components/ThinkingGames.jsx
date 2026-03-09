@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import OptimizedParticleBackground from './OptimizedParticleBackground'
 
 const ThinkingGames = ({ onComplete, onBack }) => {
   const [selectedGame, setSelectedGame] = useState(null)
-  const [gameState, setGameState] = useState({})
   const [completedGames, setCompletedGames] = useState(new Set())
 
   // 思维游戏配置
@@ -53,7 +52,6 @@ const ThinkingGames = ({ onComplete, onBack }) => {
   const handleGameComplete = (gameId) => {
     setCompletedGames(prev => new Set([...prev, gameId]))
     setSelectedGame(null)
-    setGameState({})
     
     // 如果完成了所有游戏，结束练习
     if (completedGames.size + 1 >= games.length) {
@@ -142,7 +140,7 @@ const ThinkingGames = ({ onComplete, onBack }) => {
     </div>
   )
 
-  const renderBubbleGame = () => {
+  const BubbleGame = () => {
     const [thought, setThought] = useState('')
     const [bubbles, setBubbles] = useState([])
     const [showInput, setShowInput] = useState(true)
@@ -264,7 +262,7 @@ const ThinkingGames = ({ onComplete, onBack }) => {
     )
   }
 
-  const renderTrainGame = () => {
+  const TrainGame = () => {
     const [thoughts, setThoughts] = useState([])
     const [currentThought, setCurrentThought] = useState('')
     const [isObserving, setIsObserving] = useState(false)
@@ -456,7 +454,7 @@ const ThinkingGames = ({ onComplete, onBack }) => {
           </div>
           <div className="flex-1 px-6 pb-24">
             <div className="max-w-2xl mx-auto">
-              {renderBubbleGame()}
+              <BubbleGame />
             </div>
           </div>
         </div>
@@ -480,7 +478,7 @@ const ThinkingGames = ({ onComplete, onBack }) => {
           </div>
           <div className="flex-1 px-6 pb-24">
             <div className="max-w-2xl mx-auto">
-              {renderTrainGame()}
+              <TrainGame />
             </div>
           </div>
         </div>

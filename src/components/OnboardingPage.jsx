@@ -61,7 +61,7 @@ const OnboardingPage = ({ onComplete }) => {
     }, 5000)
 
     return () => clearTimeout(timer)
-  }, [currentPage])
+  }, [currentPage, pages.length])
 
   return (
     <div className={`min-h-screen ${pages[currentPage].bgGradient} flex flex-col relative overflow-hidden`}>

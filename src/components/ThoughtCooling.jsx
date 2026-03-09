@@ -178,7 +178,7 @@ const ThoughtCooling = ({ onComplete, onBack }) => {
             <div className="w-full max-w-2xl">
               <h3 className="text-white/80 text-lg mb-4">你的回答回顾：</h3>
               <div className="space-y-3">
-                {steps.slice(0, currentStep).map((step, index) => (
+                {steps.slice(0, currentStep).map((step) => (
                   <div key={step.id} className="bg-white/5 rounded-lg p-4">
                     <div className="flex items-center space-x-2 mb-2">
                       <span className="text-lg">{step.icon}</span>

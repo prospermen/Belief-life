@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import OptimizedParticleBackground from './OptimizedParticleBackground'
 import ThinkingDetective from './ThinkingDetective'
 import ValueCompass from './ValueCompass'
@@ -10,7 +10,7 @@ const DailyJourneyPage = ({ onBack }) => {
   const [currentDate] = useState(new Date().toDateString())
 
   // 每日活动配置
-  const dailyActivities = [
+  const dailyActivities = useMemo(() => [
     {
       id: 'detective',
       title: '思维侦探日志',
@@ -47,13 +47,13 @@ const DailyJourneyPage = ({ onBack }) => {
       duration: '5-7分钟',
       type: 'ACT'
     }
-  ]
+  ], [])
 
   // 检查今日是否已完成某个活动
-  const isCompletedToday = (activityId) => {
+  const isCompletedToday = useCallback((activityId) => {
     const key = `${activityId}_${currentDate}`
     return localStorage.getItem(key) === 'completed'
-  }
+  }, [currentDate])
 
   // 标记活动为已完成
   const markAsCompleted = (activityId) => {
@@ -71,7 +71,7 @@ const DailyJourneyPage = ({ onBack }) => {
       }
     })
     setCompletedToday(completed)
-  }, [])
+  }, [dailyActivities, isCompletedToday])
 
   const handleActivityComplete = (activityId) => {
     markAsCompleted(activityId)
@@ -158,7 +158,7 @@ const DailyJourneyPage = ({ onBack }) => {
         {/* 活动卡片列表 */}
         <div className="flex-1 px-6 pb-24">
           <div className="space-y-6">
-            {dailyActivities.map((activity, index) => {
+            {dailyActivities.map((activity) => {
               const isCompleted = completedToday.has(activity.id)
               const isAvailable = true // 所有活动都可用，可以根据需要调整解锁逻辑
               

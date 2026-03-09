@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import OptimizedParticleBackground from './OptimizedParticleBackground'
 
 const HistoryPage = () => {
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [selectedEntry, setSelectedEntry] = useState(null)
-  const [journalEntries, setJournalEntries] = useState([])
 
   // 模拟日志数据
   const mockEntries = [
@@ -64,10 +63,7 @@ const HistoryPage = () => {
       tags: ['生气', '发泄', '写作']
     }
   ]
-
-  useEffect(() => {
-    setJournalEntries(mockEntries)
-  }, [])
+  const journalEntries = mockEntries
 
   // 情绪配置
   const moodConfig = {
@@ -194,7 +190,7 @@ const HistoryPage = () => {
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-yellow-400 via-blue-400 to-purple-400 opacity-30" />
               
               <div className="space-y-6">
-                {filteredEntries.map((entry, index) => {
+                {filteredEntries.map((entry) => {
                   const moodInfo = moodConfig[entry.mood]
                   return (
                     <div key={entry.id} className="relative flex items-start space-x-4">

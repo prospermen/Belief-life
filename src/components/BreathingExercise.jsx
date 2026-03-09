@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react'
 import OptimizedParticleBackground from './OptimizedParticleBackground'
 
+const PHASES = ['inhale', 'hold', 'exhale', 'pause']
+const BREATHING_PATTERN = {
+  inhale: 4,
+  hold: 7,
+  exhale: 8,
+  pause: 2,
+}
+
 const BreathingExercise = ({ onComplete, onBack }) => {
   const [phase, setPhase] = useState('inhale') // inhale, hold, exhale, pause
   const [count, setCount] = useState(4)
   const [cycle, setCycle] = useState(0)
   const [isActive, setIsActive] = useState(false)
-  const [totalTime, setTotalTime] = useState(180) // 3分钟 = 180秒
+  const [totalTime] = useState(180)
   const [remainingTime, setRemainingTime] = useState(180)
-
-  // 4-7-8呼吸法的时间配置
-  const breathingPattern = {
-    inhale: 4,
-    hold: 7,
-    exhale: 8,
-    pause: 2
-  }
 
   const phaseTexts = {
     inhale: '吸气',
@@ -39,10 +39,9 @@ const BreathingExercise = ({ onComplete, onBack }) => {
           if (count <= 1) {
             // 切换到下一个阶段
             setPhase(currentPhase => {
-              const phases = ['inhale', 'hold', 'exhale', 'pause']
-              const currentIndex = phases.indexOf(currentPhase)
-              const nextIndex = (currentIndex + 1) % phases.length
-              const nextPhase = phases[nextIndex]
+              const currentIndex = PHASES.indexOf(currentPhase)
+              const nextIndex = (currentIndex + 1) % PHASES.length
+              const nextPhase = PHASES[nextIndex]
               
               if (nextPhase === 'inhale') {
                 setCycle(c => c + 1)
@@ -50,7 +49,10 @@ const BreathingExercise = ({ onComplete, onBack }) => {
               
               return nextPhase
             })
-            return breathingPattern[phase]
+            const currentIndex = PHASES.indexOf(phase)
+            const nextIndex = (currentIndex + 1) % PHASES.length
+            const nextPhase = PHASES[nextIndex]
+            return BREATHING_PATTERN[nextPhase]
           }
           return count - 1
         })
@@ -62,12 +64,12 @@ const BreathingExercise = ({ onComplete, onBack }) => {
       // 练习完成，可以选择进入感受浪潮练习
     }
     return () => clearInterval(interval)
-  }, [isActive, count, phase, remainingTime])
+  }, [isActive, phase, remainingTime])
 
   const startExercise = () => {
     setIsActive(true)
     setPhase('inhale')
-    setCount(breathingPattern.inhale)
+    setCount(BREATHING_PATTERN.inhale)
     setCycle(0)
     setRemainingTime(totalTime)
   }
@@ -79,7 +81,7 @@ const BreathingExercise = ({ onComplete, onBack }) => {
   const resetExercise = () => {
     setIsActive(false)
     setPhase('inhale')
-    setCount(breathingPattern.inhale)
+    setCount(BREATHING_PATTERN.inhale)
     setCycle(0)
     setRemainingTime(totalTime)
   }
@@ -91,7 +93,7 @@ const BreathingExercise = ({ onComplete, onBack }) => {
   }
 
   const getCircleScale = () => {
-    const progress = (breathingPattern[phase] - count) / breathingPattern[phase]
+    const progress = (BREATHING_PATTERN[phase] - count) / BREATHING_PATTERN[phase]
     if (phase === 'inhale') {
       return 0.5 + (progress * 0.5) // 从0.5放大到1.0
     } else if (phase === 'exhale') {

@@ -44,7 +44,6 @@ const EmotionWave = ({ onComplete, onBack }) => {
     if (!isInteracting) return
     
     const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     const intensity = Math.min(Math.max((rect.height - y) / rect.height, 0.1), 1)
     

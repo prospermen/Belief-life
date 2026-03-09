@@ -2,10 +2,13 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),tailwindcss()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -16,12 +19,12 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['lucide-react']
-        }
-      }
+          ui: ['lucide-react'],
+        },
+      },
     },
     chunkSizeWarningLimit: 1000,
-    minify: true
+    minify: true,
   },
   server: {
     host: true,
@@ -31,7 +34,7 @@ export default defineConfig({
       clientPort: 443,
     },
     allowedHosts: [
-      "5174-ip89hvi7s2p1568hcypen-8f0432e7.manusvm.computer"
-    ]
-  }
+      "5174-ip89hvi7s2p1568hcypen-8f0432e7.manusvm.computer",
+    ],
+  },
 })

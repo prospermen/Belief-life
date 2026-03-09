@@ -1,9 +1,12 @@
-const sharp = require("sharp")
-const fs = require("fs")
-const path = require("path")
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
+import sharp from "sharp"
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const inputDir = path.join(__dirname, "src", "assets")
-const outputDir = path.join(__dirname, "src", "assets") // Overwrite original for now
+const outputDir = path.join(__dirname, "src", "assets")
 
 fs.readdir(inputDir, (err, files) => {
   if (err) {
