@@ -14,6 +14,7 @@ const AIFeedbackPanel = ({ loading, error, feedback, accent = 'cyan' }) => {
 
   const tone = accentClassMap[accent] ?? accentClassMap.cyan
   const hasContent = Boolean(feedback && (feedback.encouragement || feedback.insight || feedback.nextAction || feedback.followUpQuestion))
+  const notice = typeof feedback?.notice === 'string' ? feedback.notice.trim() : ''
 
   return (
     <div className={`bg-gradient-to-r ${tone.shell} rounded-xl border p-4`}>
@@ -28,9 +29,15 @@ const AIFeedbackPanel = ({ loading, error, feedback, accent = 'cyan' }) => {
         </div>
       )}
 
+      {!error && notice && (
+        <div className="rounded-lg border border-amber-300/35 bg-amber-500/10 px-3 py-2 text-amber-100 text-xs mb-3">
+          {notice}
+        </div>
+      )}
+
       {!loading && !error && !hasContent && (
         <div className="text-white/55 text-sm leading-relaxed">
-          继续输入或调整内容，AI 会自动给出观察和下一步建议。
+          Continue writing. AI feedback will update with observations and a next step.
         </div>
       )}
 
@@ -51,14 +58,14 @@ const AIFeedbackPanel = ({ loading, error, feedback, accent = 'cyan' }) => {
             <p className="text-white/80 text-sm leading-relaxed">🔎 {feedback.insight}</p>
           )}
           {feedback.nextAction && (
-            <p className="text-white/85 text-sm leading-relaxed">✅ 下一步：{feedback.nextAction}</p>
+            <p className="text-white/85 text-sm leading-relaxed">✅ Next step: {feedback.nextAction}</p>
           )}
           {feedback.followUpQuestion && (
             <p className={`${tone.question} text-sm leading-relaxed`}>❓ {feedback.followUpQuestion}</p>
           )}
           {feedback.riskFlag === 'high' && (
             <div className="rounded-lg border border-red-400/35 bg-red-500/10 px-3 py-2 text-red-100 text-xs">
-              检测到高风险信号：建议优先使用 SOS 功能并寻求线下支持。
+              High-risk signal detected: use SOS first and seek offline support immediately.
             </div>
           )}
         </div>
