@@ -4,7 +4,60 @@ import path from 'node:path'
 import { createServer } from 'node:http'
 import OpenAI from 'openai'
 
-const PORT = Number.parseInt(process.env.AI_API_PORT ?? '8787', 10)
+const parseEnvValue = (rawValue) => {
+  if (typeof rawValue !== 'string') {
+    return ''
+  }
+
+  const trimmed = rawValue.trim()
+
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"'))
+    || (trimmed.startsWith('\'') && trimmed.endsWith('\''))
+  ) {
+    return trimmed.slice(1, -1)
+  }
+
+  return trimmed
+}
+
+const loadDotEnvFile = (envPath) => {
+  if (!fs.existsSync(envPath)) {
+    return
+  }
+
+  const content = fs.readFileSync(envPath, 'utf8')
+  const lines = content.split(/\r?\n/)
+
+  lines.forEach((line) => {
+    const trimmed = line.trim()
+
+    if (!trimmed || trimmed.startsWith('#')) {
+      return
+    }
+
+    const separatorIndex = trimmed.indexOf('=')
+
+    if (separatorIndex <= 0) {
+      return
+    }
+
+    const key = trimmed.slice(0, separatorIndex).trim()
+    const value = parseEnvValue(trimmed.slice(separatorIndex + 1))
+
+    if (!key || Object.prototype.hasOwnProperty.call(process.env, key)) {
+      return
+    }
+
+    process.env[key] = value
+  })
+}
+
+loadDotEnvFile(path.resolve(process.cwd(), '.env'))
+
+const PORT = Number.parseInt(process.env.PORT ?? process.env.AI_API_PORT ?? '8787', 10)
+const HOST = process.env.HOST ?? '0.0.0.0'
+const API_ONLY = process.env.API_ONLY === 'true'
 const AI_PROVIDER = process.env.AI_PROVIDER ?? 'deepseek'
 const AI_API_KEY = process.env.DEEPSEEK_API_KEY ?? process.env.OPENAI_API_KEY ?? ''
 const AI_MODEL = process.env.OPENAI_MODEL ?? 'deepseek-chat'
@@ -14,7 +67,7 @@ const MOCK_AI = process.env.MOCK_AI === 'true'
 
 const WEB_DIST_DIR = path.resolve(process.cwd(), process.env.WEB_DIST_DIR ?? 'dist')
 const WEB_INDEX_FILE = path.join(WEB_DIST_DIR, 'index.html')
-const HAS_WEB_DIST = fs.existsSync(WEB_INDEX_FILE)
+const HAS_WEB_DIST = !API_ONLY && fs.existsSync(WEB_INDEX_FILE)
 
 const MAX_BODY_SIZE = 1024 * 32
 let aiClient = null
@@ -344,7 +397,13 @@ const server = createServer(async (request, response) => {
   sendJson(response, 404, { error: 'Not Found' })
 })
 
-server.listen(PORT, () => {
-  console.log(`AI API running on http://localhost:${PORT}`)
+server.listen(PORT, HOST, () => {
+  console.log(`AI API running on http://${HOST}:${PORT}`)
+
+  if (API_ONLY) {
+    console.log('Web static hosting disabled (API_ONLY=true)')
+    return
+  }
+
   console.log(`Web static root: ${HAS_WEB_DIST ? WEB_DIST_DIR : 'not found (run npm run build first)'}`)
 })

@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mental-health-ai-api
+    env: node
+    plan: free
+    buildCommand: npm install --legacy-peer-deps
+    startCommand: npm run start:api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: API_ONLY
+        value: "true"
+      - key: AI_ALLOW_ORIGIN
+        value: "*"
+      - key: OPENAI_BASE_URL
+        value: https://api.deepseek.com
+      - key: OPENAI_MODEL
+        value: deepseek-chat
+      - key: MOCK_AI
+        value: "false"

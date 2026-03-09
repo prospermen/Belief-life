@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "dev:api": "node ai-server/dev-ai-server.mjs",
+    "start": "node ai-server/ai-server.mjs",
+    "start:api": "node ai-server/ai-server.mjs",
     "serve": "node ai-server/dev-ai-server.mjs",
     "build:serve": "npm run build && npm run serve",
     "build": "vite build",
